@@ -25,7 +25,7 @@ return_code_messages = {
 # Function to read properties from the config file
 def read_properties_file(filename):
     properties = {}
-    print(f"Reading properties from file: {filename}")
+    print(f"Reading properties from file: {filename} \n")
     with open(filename, 'r') as file:
         for line in file:
             line = line.strip()
@@ -39,13 +39,13 @@ def validate_config(properties):
     required_params = ['console_url', 'console_api_key', 'console_cli_path', 'source_code_path', 'max_batches', 'applications_file', 'output_csv_file_path', 'output_txt_file_path', 'output_log_file_path']
     for param in required_params:
         if param not in properties:
-            print(f"Program stopped because required parameter '{param}' is not in the config.properties")
+            print(f"Program stopped because required parameter '{param}' is not in the config.properties \n")
             raise ValueError(f"Required parameter '{param}' is not in the config.properties")
 
 # Function to process application
 def process_application(app_batch, console_url, console_api_key, console_cli, source_code_path, logger, output_csv_file, output_txt_file):
     try:
-        print(f"Executing Batch: {app_batch}")
+        print(f"Executing Batch: {app_batch} \n")
         logger.info(f"Executing Batch: {app_batch}")
         for app_name, app_domain in app_batch:
             command = [
@@ -62,7 +62,7 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
                 '--upload-application=true',
                 '--exclude-patterns="tmp/, temp/, *test, tests, target/, .svn/, .git/, _Macosx/, test/"'
             ]
-            print(f"Executing command for Application-{app_name} to run AIP Analysis:", " ".join(command))
+            print(f"Executing command for Application-{app_name} to run AIP Analysis:", " ".join(command), "\n")
             # logger.info("Executing command:", " ".join(command))
 
             completed_process = subprocess.run(command, capture_output=True, text=True)
@@ -76,7 +76,7 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
                     '--apikey', f'{console_api_key}',
                     '--verbose'
                 ]
-                print(f"Executing command for Application-{app_name} for Imaging upload:", " ".join(command_2))
+                print(f"Executing command for Application-{app_name} for Imaging upload:", " ".join(command_2), "\n")
                 # logger.info("Executing command:", " ".join(command))
 
                 completed_process_2 = subprocess.run(command_2, capture_output=True, text=True)
@@ -109,7 +109,7 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
                 txtfile.write(f"{app_name}: {status} - {reason}\n")
 
     except Exception as e:
-        print("Error processing application:", e)
+        print("Error processing application:", e, "\n")
         logger.error("Error processing application:", e)
 
 # Function to create batches
@@ -185,7 +185,7 @@ def main():
         process_batch(batches, console_url, console_api_key, console_cli, source_code_path, logger, output_csv_file, output_txt_file)
 
     except Exception as e:
-        print("Error:", e)
+        print("Error:", e, "\n")
         logger.error("Error:", e)
 
 if __name__ == "__main__":
