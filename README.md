@@ -22,9 +22,8 @@ Overall, the script aims to streamline and automate the process of application a
 
 #### **Installation:**
 1.	**Clone Repository**: Clone the repository containing the script to the local system.
-2.	**Setup Environment**: Set up the Python environment and install required libraries using pip install -r requirements.txt.
-3.	**Configuration**: Configure the config.properties file with relevant paths and parameters (details in the Configuration section).
-4.	**Prepare Input Data**: Prepare a application.txt file containing the list of applications to be analyzed, with each entry in the format application_name:domain_name.
+2.	**Configuration**: Configure the config.properties file with relevant paths and parameters (details in the Configuration section).
+3.	**Prepare Input Data**: Prepare a application.txt file containing the list of applications to be analyzed, with each entry in the format application_name:domain_name.
 
 #### **Usage:**
 1.	**Execute Script**: Run the script by executing python AIP_Automation.py.
