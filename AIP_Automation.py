@@ -52,6 +52,11 @@ def replace_special_characters_with_underscore(input_string):
 
     return output_string
 
+def run_command(command):
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, text=True)
+    stdout, stderr = process.communicate()
+    return process.returncode, stdout, stderr
+
 # Function to process application
 def process_application(app_batch, console_url, console_api_key, console_cli, source_code_path, logger, output_csv_file, output_txt_file):
     try:
@@ -70,9 +75,9 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
             command = [
                 'java', '-jar', f'{console_cli}',
                 'add',
-                '-n', f'{app_name}',
-                '--domain-name', f'{app_domain}',
-                '-f', f'{source_code_path}/{application_name}',
+                '-n', f'"{app_name}"',
+                '--domain-name', f'"{app_domain}"',
+                '-f', f'"{source_code_path}\\{application_name}"',
                 '-s',  f'{console_url}',
                 '--apikey', f'{console_api_key}',
                 '--verbose',
@@ -82,13 +87,20 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
                 '--upload-application=true',
                 '--exclude-patterns="tmp/, temp/, *test, tests, target/, .svn/, .git/, _Macosx/, test/"'
             ]
+            # print(command)
             cmd = " ".join(command)
+            # print(cmd)
             print(f"Executing command to run AIP Analysis for the Application -> '{app_name}' : {cmd} \n")
             logger.info(f"Executing command to run AIP Analysis for the Application -> '{app_name}' : {cmd} \n")
             # logger.info("Executing command:", " ".join(command))
 
-            completed_process = subprocess.run(command, capture_output=True, text=True)
-            return_code = completed_process.returncode
+            # completed_process = subprocess.run(command, capture_output=True, text=True)
+
+            return_code, stdout, stderr = run_command(cmd)
+            # print("Return Code:", return_code)
+            # print("Standard Output:", stdout)
+            # print("Standard Error:", stderr)
+
             if return_code == 0:
                 status = "Passed"
                 reason = "Application processed successfully"
