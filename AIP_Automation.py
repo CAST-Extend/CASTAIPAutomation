@@ -73,7 +73,7 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
             logger.info(f"Running AIP Analysis for the application -> '{app_name}' ..... \n")
 
             command = [
-                'java', '-jar', f'{console_cli}',
+                'java', '-jar', f'"{console_cli}"',
                 'add',
                 '-n', f'"{app_name}"',
                 '--domain-name', f'"{app_domain}"',
