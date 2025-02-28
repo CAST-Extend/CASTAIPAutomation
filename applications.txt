@@ -1,2 +1,3 @@
-application_name:domain_name
-HibernateTutorial:Test
+application_name:domain_name:intermediate_folder
+email1:Test:intermediate_folder\innerfolder
+email2:Test:intermediate_folder\innerfolder
