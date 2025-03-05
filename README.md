@@ -35,7 +35,7 @@ Ensure the config.properties file is correctly configured with the following par
 
 - **console_url**: AIP Imaging-Console URL for server communication.
 - **console_api_key**: AIP Imaging-Console api-key for Authentication..
-- **console_cli_path**: Path to the directory containing the aip-console-tools-cli.jar file(AIP Console Tools version shouble be same or near to AIP Console Version).
+- **console_cli_path**: Path to the directory containing the aip-console-tools-cli.jar file(AIP Console Tools version shouble be same or near to AIP Console Version {In LM tested with Console v2.11.5 and Tool v2.11.6}).
 - **max_batches**: Maximum number of batches to process.
 - **applications_file**: Path to the file containing the list of applications.
 - **source_code_path**: Path to the directory containing the source code files of the applications to be analyzed (this path should be same as Source Folder Location configured inside AIP Console).
