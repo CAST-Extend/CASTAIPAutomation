@@ -36,7 +36,7 @@ def read_properties_file(filename):
 
 # Function to validate config properties
 def validate_config(properties):
-    required_params = ['console_url', 'console_api_key', 'console_cli_path', 'source_code_path', 'max_batches', 'applications_file', 'output_csv_file_path', 'output_txt_file_path', 'output_log_file_path']
+    required_params = ['console_url', 'console_api_key', 'console_cli_path', 'max_batches', 'applications_file', 'output_csv_file_path', 'output_txt_file_path', 'output_log_file_path']
     for param in required_params:
         if param not in properties:
             print(f"Program stopped because required parameter '{param}' is not in the config.properties \n")
@@ -58,7 +58,7 @@ def run_command(command):
     return process.returncode, stdout, stderr
 
 # Function to process application
-def process_application(app_batch, console_url, console_api_key, console_cli, source_code_path, logger, output_csv_file, output_txt_file):
+def process_application(app_batch, console_url, console_api_key, console_cli, logger, output_csv_file, output_txt_file):
     try:
         # print(f"Executing Batch: {app_batch} \n")
         # logger.info(f"Executing Batch: {app_batch}")
@@ -77,7 +77,7 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
                 'add',
                 '-n', f'"{app_name}"',
                 '--domain-name', f'"{app_domain}"',
-                '-f', f'"{source_code_path}\\{intermediate_folder}"',
+                '-f', f'"{intermediate_folder}/"',
                 '-s',  f'{console_url}',
                 '--apikey', f'{console_api_key}',
                 '--verbose',
@@ -147,10 +147,10 @@ def create_batches(applications, num_batches):
     return batches
 
 # Function to process batch
-def process_batch(batches, console_url, console_api_key, console_cli, source_code_path, logger, output_csv_file, output_txt_file):
+def process_batch(batches, console_url, console_api_key, console_cli, logger, output_csv_file, output_txt_file):
     process_threads = []
     for app_batch in batches:
-        thread = threading.Thread(target=process_application, args=(app_batch, console_url, console_api_key, console_cli, source_code_path, logger, output_csv_file, output_txt_file))
+        thread = threading.Thread(target=process_application, args=(app_batch, console_url, console_api_key, console_cli, logger, output_csv_file, output_txt_file))
         thread.start()
         process_threads.append(thread)
     for thread in process_threads:
@@ -170,7 +170,7 @@ def main():
         console_url = properties['console_url']
         console_api_key = properties['console_api_key']
         console_cli = properties['console_cli_path']
-        source_code_path = properties['source_code_path']
+        #source_code_path = properties['source_code_path']
         applications_file = properties['applications_file']
         max_batches = int(properties['max_batches'])
 
@@ -218,7 +218,7 @@ def main():
             logger.info(f"Batch-{count} {app_batch}\n")
 
         # Process batches
-        process_batch(batches, console_url, console_api_key, console_cli, source_code_path, logger, output_csv_file, output_txt_file)
+        process_batch(batches, console_url, console_api_key, console_cli, logger, output_csv_file, output_txt_file)
 
     except Exception as e:
         print("Error:", e, "\n")
