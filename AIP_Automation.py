@@ -77,7 +77,7 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
                 'add',
                 '-n', f'"{app_name}"',
                 '--domain-name', f'"{app_domain}"',
-                '-f', f'"{source_code_path}\\{intermediate_folder}\\{application_name}"',
+                '-f', f'"{source_code_path}\\{intermediate_folder}"',
                 '-s',  f'{console_url}',
                 '--apikey', f'{console_api_key}',
                 '--verbose',
