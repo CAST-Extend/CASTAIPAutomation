@@ -1,2 +1,3 @@
 application_name:domain_name
-HibernateTutorial:Test
+APP3:Test
+APP4:Test
