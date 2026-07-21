@@ -94,14 +94,13 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
 
             command = [
                 'java', '-jar', f'"{console_cli}"',
-                'add',
-                '-n', f'"{app_name}"',
+                'Onboard-Application',
+                '-app-name', f'"{app_name}"',
                 '--domain-name', f'"{app_domain}"',
-                '-f', f'"{source_code_path}\\{application_name}"',
-                '-s',  f'{console_url}',
+                '-file-path', f'"{source_code_path}\\{application_name}"',
+                '-server-url',  f'{console_url}',
                 '--apikey', f'{console_api_key}',
                 '--verbose',
-                '--auto-create',
                 '--process-imaging',
                 'Publish-Imaging',
                 '--upload-application=true',
