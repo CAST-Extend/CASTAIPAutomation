@@ -423,7 +423,7 @@ def step_3_generate_app2app_dependency_neo4j():
         properties = read_properties_file('config.properties')
         
         # Neo4j connection parameters from config
-        neo4j_uri = properties.get('neo4j_uri', 'bolt://localhost:7687')
+        neo4j_uri = properties.get('neo4j_uri', 'bolt://localhost:7697')
         neo4j_username = properties.get('neo4j_username', 'neo4j')
         neo4j_password = properties.get('neo4j_password', 'imaging')
         database_name = properties.get('neo4j_database', '')  # Leave empty for default
@@ -437,7 +437,7 @@ def step_3_generate_app2app_dependency_neo4j():
     except Exception as e:
         print(f"Error reading config file: {e}")
         print("Using default Neo4j connection parameters...")
-        neo4j_uri = 'bolt://localhost:7687'
+        neo4j_uri = 'bolt://localhost:7697'
         neo4j_username = 'neo4j'
         neo4j_password = 'imaging'
         database_name = ''
