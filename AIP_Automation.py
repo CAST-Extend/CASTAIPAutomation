@@ -82,7 +82,7 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
     try:
         # print(f"Executing Batch: {app_batch} \n")
         # logger.info(f"Executing Batch: {app_batch}")
-        for application_name, app_domain in app_batch:
+        for application_name, app_domain, source_code in app_batch:
 
             app_name = replace_special_characters_with_underscore(application_name)
 
@@ -97,7 +97,7 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
                 'Onboard-Application',
                 '--app-name', f'"{app_name}"',
                 '--domain-name', f'"{app_domain}"',
-                '--file-path', f'"{source_code_path}\\{application_name}"',
+                '--file-path', f'"{source_code_path}\\{source_code}"',
                 '--server-url',  f'{console_url}',
                 '--apikey', f'{console_api_key}',
                 '--verbose=true',
@@ -216,11 +216,11 @@ def step_1_run_aip_analysis():
         applications = []
         with open(applications_file, 'r') as file:
             for line in file:
-                app_name, app_domain = line.strip().split(':')
+                app_name, app_domain, source_code = line.strip().split(':')
                 if app_name == 'application_name' and app_domain == 'domain_name':
                     continue
                 else:
-                    applications.append((app_name.strip(), app_domain.strip()))
+                    applications.append((app_name.strip(), app_domain.strip(), source_code.strip()))
 
         # Create batches
         batches = create_batches(applications, max_batches)
