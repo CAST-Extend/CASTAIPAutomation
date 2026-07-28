@@ -292,7 +292,7 @@ def step_2_download_missing_code_db_postgresql():
             print(f"Fetching application schemas for domain: {domain_name}")
             app_query = (
                 "select c.schema_prefix\n"
-                "from aip_node.domain d, aip_node.application a, aip_node.connection_profile c\n"
+                "from control_panel.domain d, control_panel.application a, control_panel.connection_profile c\n"
                 "where d.name = %s\n"
                 "and d.guid = a.domain_guid\n"
                 "and a.connection_profile_guid = c.guid"
