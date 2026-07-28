@@ -82,7 +82,7 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
     try:
         # print(f"Executing Batch: {app_batch} \n")
         # logger.info(f"Executing Batch: {app_batch}")
-        for application_name, app_domain in app_batch:
+        for application_name, app_domain, source_code in app_batch:
 
             app_name = replace_special_characters_with_underscore(application_name)
 
@@ -94,17 +94,14 @@ def process_application(app_batch, console_url, console_api_key, console_cli, so
 
             command = [
                 'java', '-jar', f'"{console_cli}"',
-                'add',
-                '-n', f'"{app_name}"',
+                'Onboard-Application',
+                '--app-name', f'"{app_name}"',
                 '--domain-name', f'"{app_domain}"',
-                '-f', f'"{source_code_path}\\{application_name}"',
-                '-s',  f'{console_url}',
+                '--file-path', f'"{source_code_path}\\{source_code}"',
+                '--server-url',  f'{console_url}',
                 '--apikey', f'{console_api_key}',
-                '--verbose',
-                '--auto-create',
-                '--process-imaging',
-                'Publish-Imaging',
-                '--upload-application=true',
+                '--verbose=true',
+                '--process-imaging=true',
                 '--exclude-patterns="tmp/, temp/, *test, tests, target/, .svn/, .git/, _Macosx/, test/"'
             ]
             # print(command)
@@ -219,11 +216,11 @@ def step_1_run_aip_analysis():
         applications = []
         with open(applications_file, 'r') as file:
             for line in file:
-                app_name, app_domain = line.strip().split(':')
+                app_name, app_domain, source_code = line.strip().split(':')
                 if app_name == 'application_name' and app_domain == 'domain_name':
                     continue
                 else:
-                    applications.append((app_name.strip(), app_domain.strip()))
+                    applications.append((app_name.strip(), app_domain.strip(), source_code.strip()))
 
         # Create batches
         batches = create_batches(applications, max_batches)
@@ -295,7 +292,7 @@ def step_2_download_missing_code_db_postgresql():
             print(f"Fetching application schemas for domain: {domain_name}")
             app_query = (
                 "select c.schema_prefix\n"
-                "from aip_node.domain d, aip_node.application a, aip_node.connection_profile c\n"
+                "from control_panel.domain d, control_panel.application a, control_panel.connection_profile c\n"
                 "where d.name = %s\n"
                 "and d.guid = a.domain_guid\n"
                 "and a.connection_profile_guid = c.guid"
@@ -426,7 +423,7 @@ def step_3_generate_app2app_dependency_neo4j():
         properties = read_properties_file('config.properties')
         
         # Neo4j connection parameters from config
-        neo4j_uri = properties.get('neo4j_uri', 'bolt://localhost:7687')
+        neo4j_uri = properties.get('neo4j_uri', 'bolt://localhost:7697')
         neo4j_username = properties.get('neo4j_username', 'neo4j')
         neo4j_password = properties.get('neo4j_password', 'imaging')
         database_name = properties.get('neo4j_database', '')  # Leave empty for default
@@ -440,7 +437,7 @@ def step_3_generate_app2app_dependency_neo4j():
     except Exception as e:
         print(f"Error reading config file: {e}")
         print("Using default Neo4j connection parameters...")
-        neo4j_uri = 'bolt://localhost:7687'
+        neo4j_uri = 'bolt://localhost:7697'
         neo4j_username = 'neo4j'
         neo4j_password = 'imaging'
         database_name = ''
